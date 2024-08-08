@@ -5,90 +5,79 @@ tg.expand();
 tg.MainButton.textColor = '#FFFFFF';
 tg.MainButton.color = '#2cab37';
 
-let item = "";
+const items = {
+    1: { name: "Чизбургер", price: 50 },
+    2: { name: "Гамбургер", price: 45 },
+    3: { name: "Кока-кола", price: 25 },
+    4: { name: "Картофель фри", price: 35 },
+    5: { name: "Наггетсы", price: 40 },
+    6: { name: "Мороженое", price: 20 }
+};
 
-let btn1 = document.getElementById("btn1");
-let btn2 = document.getElementById("btn2");
-let btn3 = document.getElementById("btn3");
-let btn4 = document.getElementById("btn4");
-let btn5 = document.getElementById("btn5");
-let btn6 = document.getElementById("btn6");
+let cart = {};
 
-btn1.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Вы выбрали товар 1!");
-		item = "1";
-		tg.MainButton.show();
-	}
-});
+function updateMainButton() {
+    let total = Object.values(cart).reduce((sum, item) => sum + item.quantity * item.price, 0);
+    let count = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+    
+    if (count > 0) {
+        tg.MainButton.setText(`Оформить заказ (${count} шт, ${total} руб)`);
+        tg.MainButton.show();
+    } else {
+        tg.MainButton.hide();
+    }
+}
 
-btn2.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Вы выбрали товар 2!");
-		item = "2";
-		tg.MainButton.show();
-	}
-});
+function addToCart(id) {
+    if (cart[id]) {
+        cart[id].quantity++;
+    } else {
+        cart[id] = { ...items[id], quantity: 1 };
+    }
+    updateMainButton();
+    updateButtonText(id);
+}
 
-btn3.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Вы выбрали товар 3!");
-		item = "3";
-		tg.MainButton.show();
-	}
-});
+function updateButtonText(id) {
+    let btn = document.getElementById(`btn${id}`);
+    if (btn) {
+        btn.textContent = cart[id] ? `Добавить еще (${cart[id].quantity})` : 'Добавить';
+    }
+}
 
-btn4.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Вы выбрали товар 4!");
-		item = "4";
-		tg.MainButton.show();
-	}
-});
+for (let i = 1; i <= 6; i++) {
+    let btn = document.getElementById(`btn${i}`);
+    if (btn) {
+        btn.textContent = 'Добавить';
+        btn.addEventListener("click", () => addToCart(i));
+    } else {
+        console.error(`Button with id btn${i} not found`);
+    }
+}
 
-btn5.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Вы выбрали товар 5!");
-		item = "5";
-		tg.MainButton.show();
-	}
-});
-
-btn6.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Вы выбрали товар 6!");
-		item = "6";
-		tg.MainButton.show();
-	}
-});
-
-Telegram.WebApp.onEvent("mainButtonClicked", function(){
-	tg.sendData(item);
+tg.MainButton.onClick(() => {
+    let orderDetails = Object.values(cart).map(item => 
+        `${item.name} x${item.quantity} - ${item.price * item.quantity} руб`
+    ).join('\n');
+    
+    let total = Object.values(cart).reduce((sum, item) => sum + item.quantity * item.price, 0);
+    
+    let message = `Новый заказ:\n${orderDetails}\n\nИтого: ${total} руб`;
+    
+    tg.sendData(JSON.stringify({
+        action: 'order',
+        order: cart,
+        total: total
+    }));
+    
+    tg.close();
 });
 
 let usercard = document.getElementById("usercard");
-
-let p = document.createElement("p");
-
-p.innerText = `${tg.initDataUnsafe.user.first_name}
-${tg.initDataUnsafe.user.last_name}`;
-
-usercard.appendChild(p);
+if (usercard) {
+    let p = document.createElement("p");
+    p.innerText = `${tg.initDataUnsafe.user.first_name} ${tg.initDataUnsafe.user.last_name}`;
+    usercard.appendChild(p);
+} else {
+    console.error("Element with id 'usercard' not found");
+}
