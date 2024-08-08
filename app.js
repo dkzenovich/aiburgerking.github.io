@@ -5,72 +5,89 @@ tg.expand();
 tg.MainButton.textColor = '#FFFFFF';
 tg.MainButton.color = '#2cab37';
 
-let cart = {};
+let item = "";
 
-const menuItems = {
-    '1': { name: 'Воппер', price: 100 },
-    '2': { name: 'Чизбургер', price: 200 },
-    '3': { name: 'Наггетсы', price: 300 },
-    '4': { name: 'Картофель фри', price: 400 },
-    '5': { name: 'Кока-кола', price: 500 },
-    '6': { name: 'Мороженое', price: 600 }
-};
+let btn1 = document.getElementById("btn1");
+let btn2 = document.getElementById("btn2");
+let btn3 = document.getElementById("btn3");
+let btn4 = document.getElementById("btn4");
+let btn5 = document.getElementById("btn5");
+let btn6 = document.getElementById("btn6");
 
-function updateMainButton() {
-    const totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
-    const totalCost = Object.values(cart).reduce((sum, item) => sum + item.quantity * item.price, 0);
-    
-    if (totalItems > 0) {
-        tg.MainButton.setText(`Заказать (${totalItems} шт., ${totalCost} руб.)`);
-        tg.MainButton.show();
-    } else {
+btn1.addEventListener("click", function(){
+    if (tg.MainButton.isVisible) {
         tg.MainButton.hide();
     }
-}
-
-function addToCart(itemId) {
-    if (cart[itemId]) {
-        cart[itemId].quantity += 1;
-    } else {
-        cart[itemId] = { ...menuItems[itemId], quantity: 1 };
+    else {
+        tg.MainButton.setText("Вы выбрали Воппер!");
+        item = "Воппер|100";
+        tg.MainButton.show();
     }
-    updateMainButton();
-    updateCartDisplay();
-}
+});
 
-function updateCartDisplay() {
-    const cartElement = document.getElementById('cart');
-    cartElement.innerHTML = '';
-    
-    for (const [itemId, item] of Object.entries(cart)) {
-        const itemElement = document.createElement('div');
-        itemElement.innerHTML = `
-            ${item.name} - ${item.quantity} шт. 
-            <button onclick="changeQuantity('${itemId}', -1)">-</button>
-            <button onclick="changeQuantity('${itemId}', 1)">+</button>
-        `;
-        cartElement.appendChild(itemElement);
+btn2.addEventListener("click", function(){
+    if (tg.MainButton.isVisible) {
+        tg.MainButton.hide();
     }
-}
-
-function changeQuantity(itemId, delta) {
-    cart[itemId].quantity += delta;
-    if (cart[itemId].quantity <= 0) {
-        delete cart[itemId];
+    else {
+        tg.MainButton.setText("Вы выбрали Чизбургер!");
+        item = "Чизбургер|200";
+        tg.MainButton.show();
     }
-    updateMainButton();
-    updateCartDisplay();
-}
+});
 
-document.querySelectorAll('.menu-item').forEach(button => {
-    button.addEventListener('click', () => addToCart(button.dataset.itemId));
+btn3.addEventListener("click", function(){
+    if (tg.MainButton.isVisible) {
+        tg.MainButton.hide();
+    }
+    else {
+        tg.MainButton.setText("Вы выбрали Наггетсы!");
+        item = "Наггетсы|300";
+        tg.MainButton.show();
+    }
+});
+
+btn4.addEventListener("click", function(){
+    if (tg.MainButton.isVisible) {
+        tg.MainButton.hide();
+    }
+    else {
+        tg.MainButton.setText("Вы выбрали Картофель фри!");
+        item = "Картофель фри|400";
+        tg.MainButton.show();
+    }
+});
+
+btn5.addEventListener("click", function(){
+    if (tg.MainButton.isVisible) {
+        tg.MainButton.hide();
+    }
+    else {
+        tg.MainButton.setText("Вы выбрали Кока-кола!");
+        item = "Кока-кола|500";
+        tg.MainButton.show();
+    }
+});
+
+btn6.addEventListener("click", function(){
+    if (tg.MainButton.isVisible) {
+        tg.MainButton.hide();
+    }
+    else {
+        tg.MainButton.setText("Вы выбрали Мороженое!");
+        item = "Мороженое|600";
+        tg.MainButton.show();
+    }
 });
 
 Telegram.WebApp.onEvent("mainButtonClicked", function(){
-    tg.sendData(JSON.stringify(cart));
+    tg.sendData(item); // Отправка данных в бот
 });
 
 let usercard = document.getElementById("usercard");
+
 let p = document.createElement("p");
+
 p.innerText = `${tg.initDataUnsafe.user.first_name} ${tg.initDataUnsafe.user.last_name}`;
+
 usercard.appendChild(p);
