@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Burger King Menu</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="app.js?v=1"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,11 +32,26 @@
             border-top: 1px solid var(--tg-theme-hint-color);
             padding-top: 20px;
         }
+        #debug {
+            margin-top: 20px;
+            border-top: 1px solid var(--tg-theme-hint-color);
+            padding-top: 20px;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
     <div id="menu">
-        <!-- Ваше меню здесь -->
+        <div class="item">
+            <h3>Воппер</h3>
+            <p>Цена: 100 руб.</p>
+            <button class="btn" onclick="addToCart('Воппер', 100)">Добавить в корзину</button>
+        </div>
+        <div class="item">
+            <h3>Чизбургер</h3>
+            <p>Цена: 50 руб.</p>
+            <button class="btn" onclick="addToCart('Чизбургер', 50)">Добавить в корзину</button>
+        </div>
     </div>
     <div id="cart">
         <h2>Корзина</h2>
@@ -43,6 +59,9 @@
         <p>Итого: <span id="total">0</span> руб.</p>
         <button id="pay-button" class="btn">Оплатить</button>
     </div>
-    <script src="app.js"></script>
+    <div id="debug">
+        <h3>Отладочная информация</h3>
+        <pre id="debug-info"></pre>
+    </div>
 </body>
 </html>
