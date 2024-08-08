@@ -1,5 +1,13 @@
 let tg = window.Telegram.WebApp;
 
+function debugLog(message) {
+    console.log(message);
+    let debugInfo = document.getElementById('debug-info');
+    debugInfo.textContent += message + '\n';
+}
+
+debugLog('Web App initializing...');
+
 tg.expand();
 
 let cart = [];
@@ -9,6 +17,7 @@ function addToCart(item, price) {
     cart.push({name: item, price: price});
     total += price;
     updateCart();
+    debugLog(`Added to cart: ${item} - ${price} руб.`);
 }
 
 function updateCart() {
@@ -24,28 +33,32 @@ function updateCart() {
     if (total > 0) {
         tg.MainButton.setText("Оплатить");
         tg.MainButton.show();
+        debugLog('MainButton shown');
     } else {
         tg.MainButton.hide();
+        debugLog('MainButton hidden');
     }
 }
 
-Telegram.WebApp.onEvent('mainButtonClicked', function(){
-    console.log('MainButton clicked');
-    tg.sendData(JSON.stringify({
+tg.onEvent('mainButtonClicked', function(){
+    debugLog('MainButton clicked');
+    sendOrder();
+});
+
+document.getElementById('pay-button').addEventListener('click', function() {
+    debugLog('Pay button clicked');
+    sendOrder();
+});
+
+function sendOrder() {
+    let data = {
         cart: cart,
         total: total
-    }));
-});
+    };
+    debugLog('Sending data to bot: ' + JSON.stringify(data));
+    tg.sendData(JSON.stringify(data));
+}
 
-tg.onEvent('viewportChanged', function(){
-    console.log('Viewport changed');
-});
-
-// Добавим обработчик для кнопки "Оплатить" в HTML
-document.getElementById('pay-button').addEventListener('click', function() {
-    console.log('Pay button clicked');
-    tg.MainButton.setText("Оплатить");
-    tg.MainButton.show();
-});
-
-console.log('Web App initialized');
+debugLog('Web App initialized');
+debugLog('Telegram WebApp version: ' + tg.version);
+debugLog('Platform: ' + tg.platform);
