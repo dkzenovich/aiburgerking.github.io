@@ -1,44 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>Burger King Menu</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            color: var(--tg-theme-text-color);
+            background-color: var(--tg-theme-bg-color);
+        }
+        .item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid var(--tg-theme-hint-color);
+            border-radius: 5px;
+        }
+        .btn {
+            padding: 5px 10px;
+            background-color: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        #cart {
+            margin-top: 20px;
+            border-top: 1px solid var(--tg-theme-hint-color);
+            padding-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="inner">
-            <div class="item">
-                <img src="1.png" alt="" class="img">
-                <button class="btn" id="btn1">Add</button>
-            </div>
-            <div class="item">
-                <img src="1.png" alt="" class="img">
-                <button class="btn" id="btn2">Add</button>
-            </div>
-            <div class="item">
-                <img src="1.png" alt="" class="img">
-                <button class="btn" id="btn3">Add</button>
-            </div>
-            <div class="item">
-                <img src="1.png" alt="" class="img">
-                <button class="btn" id="btn4">Add</button>
-            </div>
-            <div class="item">
-                <img src="1.png" alt="" class="img">
-                <button class="btn" id="btn5">Add</button>
-            </div>
-            <div class="item">
-                <img src="1.png" alt="" class="img">
-                <button class="btn" id="btn6">Add</button>
-            </div>
+    <div id="menu">
+        <div class="item">
+            <h3>Воппер</h3>
+            <p>Цена: 100 руб.</p>
+            <button class="btn" onclick="addToCart('Воппер', 100)">Добавить в корзину</button>
         </div>
+        <div class="item">
+            <h3>Чизбургер</h3>
+            <p>Цена: 50 руб.</p>
+            <button class="btn" onclick="addToCart('Чизбургер', 50)">Добавить в корзину</button>
+        </div>
+        <!-- Добавьте другие пункты меню здесь -->
     </div>
-    <div class="usercard" id="usercard"></div>
-    <button id="checkout" style="display: none;">Оплатить</button>
-
+    <div id="cart">
+        <h2>Корзина</h2>
+        <div id="cart-items"></div>
+        <p>Итого: <span id="total">0</span> руб.</p>
+        <button id="order-btn" class="btn" onclick="placeOrder()" style="display: none;">Оформить заказ</button>
+    </div>
     <script src="app.js"></script>
 </body>
 </html>
