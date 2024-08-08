@@ -1,17 +1,44 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Корзина</title>
-    <script src="app.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Burger King Menu</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <div id="usercard"></div>
-    <button id="btn1">Воппер</button>
-    <button id="btn2">Чизбургер</button>
-    <button id="btn3">Наггетсы</button>
-    <button id="btn4">Картофель фри</button>
-    <button id="btn5">Кока-кола</button>
-    <button id="btn6">Мороженое</button>
+    <div class="container">
+        <div class="inner">
+            <div class="item">
+                <img src="1.png" alt="" class="img">
+                <button class="btn" id="btn1">Add</button>
+            </div>
+            <div class="item">
+                <img src="1.png" alt="" class="img">
+                <button class="btn" id="btn2">Add</button>
+            </div>
+            <div class="item">
+                <img src="1.png" alt="" class="img">
+                <button class="btn" id="btn3">Add</button>
+            </div>
+            <div class="item">
+                <img src="1.png" alt="" class="img">
+                <button class="btn" id="btn4">Add</button>
+            </div>
+            <div class="item">
+                <img src="1.png" alt="" class="img">
+                <button class="btn" id="btn5">Add</button>
+            </div>
+            <div class="item">
+                <img src="1.png" alt="" class="img">
+                <button class="btn" id="btn6">Add</button>
+            </div>
+        </div>
+    </div>
+    <div class="usercard" id="usercard"></div>
+    <button id="checkout" style="display: none;">Оплатить</button>
+
+    <script src="app.js"></script>
 </body>
 </html>
