@@ -5,89 +5,54 @@ tg.expand();
 tg.MainButton.textColor = '#FFFFFF';
 tg.MainButton.color = '#2cab37';
 
-let item = "";
+let cart = [];
+let total = 0;
 
-let btn1 = document.getElementById("btn1");
-let btn2 = document.getElementById("btn2");
-let btn3 = document.getElementById("btn3");
-let btn4 = document.getElementById("btn4");
-let btn5 = document.getElementById("btn5");
-let btn6 = document.getElementById("btn6");
+const items = [
+    { id: 1, name: "Воппер", price: 100 },
+    { id: 2, name: "Чизбургер", price: 200 },
+    { id: 3, name: "Наггетсы", price: 300 },
+    { id: 4, name: "Картофель фри", price: 400 },
+    { id: 5, name: "Кока-кола", price: 500 },
+    { id: 6, name: "Мороженое", price: 600 }
+];
 
-btn1.addEventListener("click", function(){
-    if (tg.MainButton.isVisible) {
-        tg.MainButton.hide();
+function updateCart() {
+    let cartText = "Корзина:\n";
+    cart.forEach(item => {
+        cartText += `${item.name} - ${item.price} руб.\n`;
+    });
+    cartText += `\nИтого: ${total} руб.`;
+    document.getElementById('usercard').innerText = cartText;
+    
+    if (total > 0) {
+        document.getElementById('checkout').style.display = 'block';
+    } else {
+        document.getElementById('checkout').style.display = 'none';
     }
-    else {
-        tg.MainButton.setText("Вы выбрали Воппер!");
-        item = "Воппер|100";
-        tg.MainButton.show();
-    }
-});
+}
 
-btn2.addEventListener("click", function(){
-    if (tg.MainButton.isVisible) {
-        tg.MainButton.hide();
-    }
-    else {
-        tg.MainButton.setText("Вы выбрали Чизбургер!");
-        item = "Чизбургер|200";
-        tg.MainButton.show();
-    }
-});
+for (let i = 1; i <= 6; i++) {
+    document.getElementById(`btn${i}`).addEventListener("click", function() {
+        const item = items[i-1];
+        cart.push(item);
+        total += item.price;
+        updateCart();
+    });
+}
 
-btn3.addEventListener("click", function(){
-    if (tg.MainButton.isVisible) {
-        tg.MainButton.hide();
-    }
-    else {
-        tg.MainButton.setText("Вы выбрали Наггетсы!");
-        item = "Наггетсы|300";
-        tg.MainButton.show();
-    }
-});
-
-btn4.addEventListener("click", function(){
-    if (tg.MainButton.isVisible) {
-        tg.MainButton.hide();
-    }
-    else {
-        tg.MainButton.setText("Вы выбрали Картофель фри!");
-        item = "Картофель фри|400";
-        tg.MainButton.show();
-    }
-});
-
-btn5.addEventListener("click", function(){
-    if (tg.MainButton.isVisible) {
-        tg.MainButton.hide();
-    }
-    else {
-        tg.MainButton.setText("Вы выбрали Кока-кола!");
-        item = "Кока-кола|500";
-        tg.MainButton.show();
-    }
-});
-
-btn6.addEventListener("click", function(){
-    if (tg.MainButton.isVisible) {
-        tg.MainButton.hide();
-    }
-    else {
-        tg.MainButton.setText("Вы выбрали Мороженое!");
-        item = "Мороженое|600";
-        tg.MainButton.show();
-    }
+document.getElementById('checkout').addEventListener('click', function() {
+    tg.MainButton.setText("Оплатить");
+    tg.MainButton.show();
 });
 
 Telegram.WebApp.onEvent("mainButtonClicked", function(){
-    tg.sendData(item); // Отправка данных в бот
+    tg.sendData(JSON.stringify({
+        cart: cart,
+        total: total
+    }));
 });
 
-let usercard = document.getElementById("usercard");
-
 let p = document.createElement("p");
-
 p.innerText = `${tg.initDataUnsafe.user.first_name} ${tg.initDataUnsafe.user.last_name}`;
-
-usercard.appendChild(p);
+document.getElementById("usercard").appendChild(p);
