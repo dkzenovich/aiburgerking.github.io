@@ -1,4 +1,5 @@
 let tg = window.Telegram.WebApp;
+
 tg.expand();
 
 let cart = [];
@@ -20,20 +21,16 @@ function updateCart() {
     });
     document.getElementById('total').textContent = total;
     
-    let orderBtn = document.getElementById('order-btn');
     if (total > 0) {
-        orderBtn.style.display = 'block';
+        tg.MainButton.setText("Оплатить");
+        tg.MainButton.show();
     } else {
-        orderBtn.style.display = 'none';
+        tg.MainButton.hide();
     }
 }
 
-function placeOrder() {
-    tg.MainButton.text = "Оплатить";
-    tg.MainButton.show();
-}
-
 Telegram.WebApp.onEvent('mainButtonClicked', function(){
+    console.log('MainButton clicked');
     tg.sendData(JSON.stringify({
         cart: cart,
         total: total
@@ -42,6 +39,13 @@ Telegram.WebApp.onEvent('mainButtonClicked', function(){
 
 tg.onEvent('viewportChanged', function(){
     console.log('Viewport changed');
+});
+
+// Добавим обработчик для кнопки "Оплатить" в HTML
+document.getElementById('pay-button').addEventListener('click', function() {
+    console.log('Pay button clicked');
+    tg.MainButton.setText("Оплатить");
+    tg.MainButton.show();
 });
 
 console.log('Web App initialized');
