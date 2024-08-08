@@ -35,23 +35,13 @@
 </head>
 <body>
     <div id="menu">
-        <div class="item">
-            <h3>Воппер</h3>
-            <p>Цена: 100 руб.</p>
-            <button class="btn" onclick="addToCart('Воппер', 100)">Добавить в корзину</button>
-        </div>
-        <div class="item">
-            <h3>Чизбургер</h3>
-            <p>Цена: 50 руб.</p>
-            <button class="btn" onclick="addToCart('Чизбургер', 50)">Добавить в корзину</button>
-        </div>
-        <!-- Добавьте другие пункты меню здесь -->
+        <!-- Ваше меню здесь -->
     </div>
     <div id="cart">
         <h2>Корзина</h2>
         <div id="cart-items"></div>
         <p>Итого: <span id="total">0</span> руб.</p>
-        <button id="order-btn" class="btn" onclick="placeOrder()" style="display: none;">Оформить заказ</button>
+        <button id="pay-button" class="btn">Оплатить</button>
     </div>
     <script src="app.js"></script>
 </body>
