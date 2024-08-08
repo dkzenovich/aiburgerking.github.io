@@ -1,45 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="style.css">
-	<title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger King Menu</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .menu-item { margin: 10px 0; padding: 10px; background-color: #f0f0f0; cursor: pointer; }
+        #cart { margin-top: 20px; }
+    </style>
 </head>
 <body>
-	<div class="container">
-		<div class="inner">
-			<div class="item">
-				<img src="1.png" alt="" class="img">
-				<button class="btn" id="btn1">Add</button>
-			</div>
-			<div class="item">
-				<img src="1.png" alt="" class="img">
-				<button class="btn" id="btn2">Add</button>
-			</div>
-			<div class="item">
-				<img src="1.png" alt="" class="img">
-				<button class="btn" id="btn3">Add</button>
-			</div>
-			<div class="item">
-				<img src="1.png" alt="" class="img">
-				<button class="btn" id="btn4">Add</button>
-			</div>
-			<div class="item">
-				<img src="1.png" alt="" class="img">
-				<button class="btn" id="btn5">Add</button>
-			</div>
-			<div class="item">
-				<img src="1.png" alt="" class="img">
-				<button class="btn" id="btn6">Add</button>
-			</div>
-		</div>
-	</div>
-	<div class="usercard" id="usercard">
-		
-	</div>
-
-	<script src="https://telegram.org/js/telegram-web-app.js"></script>
-	<script src="app.js"></script>
+    <div id="usercard"></div>
+    <h1>Меню Burger King</h1>
+    <div id="menu">
+        <div class="menu-item" data-item-id="1">Воппер - 100 руб.</div>
+        <div class="menu-item" data-item-id="2">Чизбургер - 200 руб.</div>
+        <div class="menu-item" data-item-id="3">Наггетсы - 300 руб.</div>
+        <div class="menu-item" data-item-id="4">Картофель фри - 400 руб.</div>
+        <div class="menu-item" data-item-id="5">Кока-кола - 500 руб.</div>
+        <div class="menu-item" data-item-id="6">Мороженое - 600 руб.</div>
+    </div>
+    <h2>Ваш заказ:</h2>
+    <div id="cart"></div>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
