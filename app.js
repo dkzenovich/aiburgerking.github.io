@@ -26,9 +26,10 @@ function updateCart() {
     document.getElementById('usercard').innerText = cartText;
     
     if (total > 0) {
-        document.getElementById('checkout').style.display = 'block';
+        tg.MainButton.setText("Оплатить");
+        tg.MainButton.show();
     } else {
-        document.getElementById('checkout').style.display = 'none';
+        tg.MainButton.hide();
     }
 }
 
@@ -41,12 +42,7 @@ for (let i = 1; i <= 6; i++) {
     });
 }
 
-document.getElementById('checkout').addEventListener('click', function() {
-    tg.MainButton.setText("Оплатить");
-    tg.MainButton.show();
-});
-
-Telegram.WebApp.onEvent("mainButtonClicked", function(){
+tg.onEvent('mainButtonClicked', function(){
     tg.sendData(JSON.stringify({
         cart: cart,
         total: total
@@ -56,3 +52,10 @@ Telegram.WebApp.onEvent("mainButtonClicked", function(){
 let p = document.createElement("p");
 p.innerText = `${tg.initDataUnsafe.user.first_name} ${tg.initDataUnsafe.user.last_name}`;
 document.getElementById("usercard").appendChild(p);
+
+// Добавим отладочную информацию
+tg.onEvent('viewportChanged', function(){
+    console.log('Viewport changed');
+});
+
+console.log('Web App initialized');
